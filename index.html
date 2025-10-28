@@ -1,0 +1,79 @@
+import React from 'react';
+import { Activity, TrendingUp, Users, DollarSign, CheckCircle } from 'lucide-react';
+
+export default function DashboardObra() {
+  const obra = {
+    nome: "USF Vale dos Sonhos",
+    progresso: 45,
+    status: "Em Andamento",
+    orcamento: "R$ 2.800.000",
+    gasto: "R$ 1.260.000",
+    responsavel: "Werick Martins",
+    equipe: 32
+  };
+
+  return (
+    <div className="bg-white p-4">
+      <div className="max-w-full">
+        {/* Header Compacto */}
+        <div className="flex items-center gap-2 mb-4 pb-3 border-b-2 border-blue-500">
+          <Activity className="w-6 h-6 text-blue-600" />
+          <div>
+            <h2 className="text-lg font-bold text-slate-800">{obra.nome}</h2>
+            <p className="text-xs text-slate-500">Gestor: {obra.responsavel}</p>
+          </div>
+        </div>
+
+        {/* Cards de Métricas em Grid Compacto */}
+        <div className="grid grid-cols-2 gap-3">
+          {/* Progresso Geral */}
+          <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-3 border-l-4 border-blue-500">
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-xs text-slate-700 font-semibold">Progresso</p>
+              <TrendingUp className="w-5 h-5 text-blue-600" />
+            </div>
+            <p className="text-3xl font-bold text-blue-700 mb-2">{obra.progresso}%</p>
+            <div className="w-full bg-white rounded-full h-2 overflow-hidden">
+              <div
+                className="h-2 bg-blue-600 rounded-full transition-all duration-500"
+                style={{ width: `${obra.progresso}%` }}
+              />
+            </div>
+          </div>
+
+          {/* Status */}
+          <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-lg p-3 border-l-4 border-green-500">
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-xs text-slate-700 font-semibold">Status</p>
+              <CheckCircle className="w-5 h-5 text-green-600" />
+            </div>
+            <div className="flex items-center gap-1 mt-3">
+              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+              <p className="text-sm font-bold text-green-700">{obra.status}</p>
+            </div>
+          </div>
+
+          {/* Orçamento */}
+          <div className="bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-lg p-3 border-l-4 border-emerald-500">
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-xs text-slate-700 font-semibold">Orçamento</p>
+              <DollarSign className="w-5 h-5 text-emerald-600" />
+            </div>
+            <p className="text-lg font-bold text-emerald-700">{obra.orcamento}</p>
+            <p className="text-xs text-emerald-600 mt-1">Gasto: {obra.gasto}</p>
+          </div>
+
+          {/* Equipe */}
+          <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg p-3 border-l-4 border-purple-500">
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-xs text-slate-700 font-semibold">Equipe</p>
+              <Users className="w-5 h-5 text-purple-600" />
+            </div>
+            <p className="text-3xl font-bold text-purple-700">{obra.equipe}</p>
+            <p className="text-xs text-purple-600">colaboradores</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
