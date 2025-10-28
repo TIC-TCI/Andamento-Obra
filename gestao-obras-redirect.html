@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboards - Gestão de Obras</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f8fafc;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .header-icon {
+            width: 48px;
+            height: 48px;
+            color: #3b82f6;
+            margin: 0 auto 16px;
+        }
+        
+        .header-title {
+            font-size: 32px;
+            font-weight: bold;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+        
+        .header-subtitle {
+            font-size: 16px;
+            color: #64748b;
+        }
+        
+        .obras-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+        
+        .obra-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border-left: 4px solid;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: block;
+        }
+        
+        .obra-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+        }
+        
+        .obra-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        
+        .obra-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        
+        .obra-arrow {
+            width: 20px;
+            height: 20px;
+            color: #94a3b8;
+            transition: transform 0.3s ease;
+        }
+        
+        .obra-card:hover .obra-arrow {
+            transform: translateX(4px);
+        }
+        
+        .obra-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1e293b;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+        
+        .obra-gestor {
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 16px;
+        }
+        
+        .obra-stats {
+            display: flex;
+            gap: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .stat {
+            flex: 1;
+        }
+        
+        .stat-label {
+            font-size: 11px;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+        
+        .stat-value {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s;
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            animation: slideDown 0.3s;
+        }
+        
+        .modal-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .modal-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1e293b;
+            margin-bottom: 10px;
+        }
+        
+        .modal-text {
+            font-size: 16px;
+            color: #64748b;
+            margin-bottom: 20px;
+        }
+        
+        .modal-button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .modal-button:hover {
+            background: #2563eb;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        /* Cores específicas para cada obra */
+        .obra-hospital-mulher {
+            border-left-color: #ec4899;
+        }
+        
+        .obra-hospital-mulher .obra-icon {
+            background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
+            color: #ec4899;
+        }
+        
+        .obra-hospital-mulher .stat-value {
+            color: #be185d;
+        }
+        
+        .obra-hes {
+            border-left-color: #3b82f6;
+        }
+        
+        .obra-hes .obra-icon {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            color: #3b82f6;
+        }
+        
+        .obra-hes .stat-value {
+            color: #1d4ed8;
+        }
+        
+        .obra-escola-bosque {
+            border-left-color: #22c55e;
+        }
+        
+        .obra-escola-bosque .obra-icon {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            color: #22c55e;
+        }
+        
+        .obra-escola-bosque .stat-value {
+            color: #15803d;
+        }
+        
+        .obra-ti-jardim {
+            border-left-color: #f59e0b;
+        }
+        
+        .obra-ti-jardim .obra-icon {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            color: #f59e0b;
+        }
+        
+        .obra-ti-jardim .stat-value {
+            color: #d97706;
+        }
+        
+        .obra-upa-creche {
+            border-left-color: #ef4444;
+        }
+        
+        .obra-upa-creche .obra-icon {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            color: #ef4444;
+        }
+        
+        .obra-upa-creche .stat-value {
+            color: #dc2626;
+        }
+        
+        .obra-usf-santa-fe {
+            border-left-color: #a855f7;
+        }
+        
+        .obra-usf-santa-fe .obra-icon {
+            background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
+            color: #a855f7;
+        }
+        
+        .obra-usf-santa-fe .stat-value {
+            color: #7e22ce;
+        }
+        
+        .obra-usf-terezinha {
+            border-left-color: #10b981;
+        }
+        
+        .obra-usf-terezinha .obra-icon {
+            background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
+            color: #10b981;
+        }
+        
+        .obra-usf-terezinha .stat-value {
+            color: #047857;
+        }
+        
+        .obra-usf-vale-sonhos {
+            border-left-color: #06b6d4;
+        }
+        
+        .obra-usf-vale-sonhos .obra-icon {
+            background: linear-gradient(135deg, #ecfeff 0%, #cffafe 100%);
+            color: #06b6d4;
+        }
+        
+        .obra-usf-vale-sonhos .stat-value {
+            color: #0891b2;
+        }
+        
+        .obra-nhe-walter {
+            border-left-color: #8b5cf6;
+        }
+        
+        .obra-nhe-walter .obra-icon {
+            background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+            color: #8b5cf6;
+        }
+        
+        .obra-nhe-walter .stat-value {
+            color: #6d28d9;
+        }
+        
+        @media (max-width: 768px) {
+            .obras-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-title {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <svg class="header-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+            </svg>
+            <h1 class="header-title">Gestão de Obras</h1>
+            <p class="header-subtitle">Selecione uma obra para visualizar o dashboard</p>
+        </div>
+
+        <div class="obras-grid">
+            <!-- Ampliação do Hospital da Mulher Mãe Luzia -->
+            <div class="obra-card obra-hospital-mulher" data-dashboard="hospital-mulher-mae-luzia" data-obra-nome="Ampliação do Hospital da Mulher Mãe Luzia">
+                <div class="obra-header">
+                    <div class="obra-icon">🏥</div>
+                    <svg class="obra-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </div>
+                <h3 class="obra-title">Ampliação do Hospital da Mulher Mãe Luzia</h3>
+                <p class="obra-gestor">Gestor: Gabriel Santos</p>
+                <div class="obra-stats">
+                    <div class="stat">
+                        <div class="stat-label">Progresso</div>
+                        <div class="stat-value">38%</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">Equipe</div>
+                        <div class="stat-value">42</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ampliação HES -->
+            <div class="obra-card obra-hes" data-dashboard="ampliacao-hes" data-obra-nome="Ampliação HES">
+                <div class="obra-header">
+                    <div class="obra-icon">🏨</div>
+                    <svg class="obra-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </div>
+                <h3 class="obra-title">Ampliação HES</h3>
+                <p class="obra-gestor">Gestor: Thassio Fernandes</p>
+                <div class="obra-stats">
+                    <div class="stat">
+                        <div class="stat-label">Progresso</div>
+                        <div class="stat-value">52%</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">Equipe</div>
+                        <div class="stat-value">38</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Escola Bosque Bailique -->
+            <div class="obra-card obra-escola-bosque" data-dashboard="escola-bosque-bailique" data-obra-nome="Escola Bosque Bailique">
+                <div class="obra-header">
+                    <div class="obra-icon">🏫</div>
+                    <svg class="obra-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </div>
+                <h3 class="obra-title">Escola Bosque Bailique</h3>
+                <p class="obra-gestor">Gestor: Riliane Barros</p>
+                <div class="obra-stats">
+                    <div class="stat">
+                        <div class="stat-label">Progresso</div>
+                        <div class="stat-value">67%</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">Equipe</div>
+                        <div class="stat-value">25</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TI Jardim -->
+            <div class="obra-card obra-ti-jardim" data-dashboard="ti-jardim" data-obra-nome="TI Jardim">
+                <div class="obra-header">
+                    <div class="obra-icon">🗝️</div>
+                    <svg class="obra-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </div>
+                <h3 class="obra-title">TI Jardim</h3>
+                <p class="obra-gestor">Gestor: Igor Reis</p>
+                <div class="obra-stats">
+                    <div class="stat">
+                        <div class="stat-label">Progresso</div>
+                        <div class="stat-value">45%</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">Equipe</div>
+                        <div class="stat-value">30</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- UPA do Amapá e Creche Maria Elizia -->
+            <div class="obra-card obra-upa-creche" data-dashboard="upa-amapa-creche-maria-elizia" data-obra-nome="UPA do Amapá e Creche Maria Elizia">
+                <div class="obra-header">
+                    <div class="obra-icon">🏥</div>
+                    <svg class="obra-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </div>
+                <h3 class="obra-title">UPA do Amapá e Creche Maria Elizia</h3>
+                <p class="obra-gestor">Gestor: Paulo Bispo</p>
+                <div class="obra-stats">
+                    <div class="stat">
+                        <div class="stat-label">Progresso</div>
+                        <div class="stat-value">56%</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">Equipe</div>
+                        <div class="stat-value">48</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- USF Santa Fé -->
+            <div class="obra-card obra-usf-santa-fe" data-dashboard="usf-santa-fe" data-obra-nome="USF Santa Fé">
+                <div class="obra-header">
+                    <div class="obra-icon">🏥</div>
+                    <svg class="obra-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </div>
+                <h3 class="obra-title">USF Santa Fé</h3>
+                <p class="obra-gestor">Gestor: Werick Martins</p>
+                <div class="obra-stats">
+                    <div class="stat">
+                        <div class="stat-label">Progresso</div>
+                        <div class="stat-value">72%</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">Equipe</div>
+                        <div class="stat-value">28</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- USF Terezinha de Jesus -->
+            <div class="obra-card obra-usf-terezinha" data-dashboard="usf-terezinha-de-jesus" data-obra-nome="USF Terezinha de Jesus">
+                <div class="obra-header">
+                    <div class="obra-icon">🏥</div>
+                    <svg class="obra-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </div>
+                <h3 class="obra-title">USF Terezinha de Jesus</h3>
+                <p class="obra-gestor">Gestor: Werick Martins</p>
+                <div class="obra-stats">
+                    <div class="stat">
+                        <div class="stat-label">Progresso</div>
+                        <div class="stat-value">64%</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">Equipe</div>
+                        <div class="stat-value">26</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- USF Vale dos Sonhos -->
+            <div class="obra-card obra-usf-vale-sonhos" data-dashboard="usf-vale-dos-sonhos" data-obra-nome="USF Vale dos Sonhos">
+                <div class="obra-header">
+                    <div class="obra-icon">🏥</div>
+                    <svg class="obra-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </div>
+                <h3 class="obra-title">USF Vale dos Sonhos</h3>
+                <p class="obra-gestor">Gestor: Werick Martins</p>
+                <div class="obra-stats">
+                    <div class="stat">
+                        <div class="stat-label">Progresso</div>
+                        <div class="stat-value">58%</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">Equipe</div>
+                        <div class="stat-value">32</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NHE Walter de Jesus -->
+            <div class="obra-card obra-nhe-walter" data-dashboard="nhe-walter-de-jesus" data-obra-nome="NHE Walter de Jesus">
+                <div class="obra-header">
+                    <div class="obra-icon">🏥</div>
+                    <svg class="obra-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </div>
+                <h3 class="obra-title">NHE Walter de Jesus</h3>
+                <p class="obra-gestor">Gestor: Werick Martins</p>
+                <div class="obra-stats">
+                    <div class="stat">
+                        <div class="stat-label">Progresso</div>
+                        <div class="stat-value">61%</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">Equipe</div>
+                        <div class="stat-value">29</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-icon">📊</div>
+            <h2 class="modal-title" id="modal-title">Dashboard Selecionado</h2>
+            <p class="modal-text" id="modal-text">Você selecionou a obra</p>
+            <button class="modal-button" onclick="closeModal()">Fechar</button>
+        </div>
+    </div>
+
+    <script>
+        // Configuração dos caminhos dos dashboards
+        const dashboardPaths = {
+            'hospital-mulher-mae-luzia': 'hospital-mulher-mae-luzia.html',
+            'ampliacao-hes': 'ampliacao-hes.html',
+            'escola-bosque-bailique': 'escola-bosque-bailique.html',
+            'ti-jardim': 'ti-jardim.html',
+            'upa-amapa-creche-maria-elizia': 'upa-amapa-creche-maria-elizia.html',
+            'usf-santa-fe': 'usf-santa-fe.html',
+            'usf-terezinha-de-jesus': 'usf-terezinha-de-jesus.html',
+            'usf-vale-dos-sonhos': 'usf-vale-dos-sonhos.html',
+            'nhe-walter-de-jesus': 'nhe-walter-de-jesus.html'
+        };
+
+        // Adiciona evento de clique em todos os cards
+        document.querySelectorAll('.obra-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                e.preventDefault();
+                const dashboardId = this.getAttribute('data-dashboard');
+                const obraNome = this.getAttribute('data-obra-nome');
+                const path = dashboardPaths[dashboardId];
+                
+                if (path) {
+                    // Mostra o modal com informações da obra
+                    document.getElementById('modal-title').textContent = obraNome;
+                    document.getElementById('modal-text').textContent = `Redirecionando para: ${path}`;
+                    document.getElementById('modal').style.display = 'block';
+                    
+                    // Redireciona após 1.5 segundos
+                    setTimeout(() => {
+                        window.location.href = path;
+                    }, 1500);
+                } else {
+                    alert('Dashboard não encontrado!');
+                }
+            });
+        });
+
+        // Função para fechar o modal
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        // Fecha o modal ao clicar fora dele
+        window.onclick = function(event) {
+            const modal = document.getElementById('modal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
