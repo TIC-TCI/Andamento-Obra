@@ -324,6 +324,32 @@
             color: #6d28d9;
         }
         
+        .obra-escola-sevilha {
+            border-left-color: #0ea5e9;
+        }
+        
+        .obra-escola-sevilha .obra-icon {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            color: #0ea5e9;
+        }
+        
+        .obra-escola-sevilha .stat-value {
+            color: #0369a1;
+        }
+        
+        .obra-escola-botafogo {
+            border-left-color: #f97316;
+        }
+        
+        .obra-escola-botafogo .obra-icon {
+            background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+            color: #f97316;
+        }
+        
+        .obra-escola-botafogo .stat-value {
+            color: #c2410c;
+        }
+        
         @media (max-width: 768px) {
             .obras-grid {
                 grid-template-columns: 1fr;
@@ -543,6 +569,50 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Escola Sevilha -->
+            <div class="obra-card obra-escola-sevilha" data-dashboard="escola-sevilha" data-obra-nome="Escola Sevilha">
+                <div class="obra-header">
+                    <div class="obra-icon">🏫</div>
+                    <svg class="obra-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </div>
+                <h3 class="obra-title">Escola Sevilha</h3>
+                <p class="obra-gestor">Gestor: A definir</p>
+                <div class="obra-stats">
+                    <div class="stat">
+                        <div class="stat-label">Progresso</div>
+                        <div class="stat-value">34%</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">Equipe</div>
+                        <div class="stat-value">22</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Escola Botafogo -->
+            <div class="obra-card obra-escola-botafogo" data-dashboard="escola-botafogo" data-obra-nome="Escola Botafogo">
+                <div class="obra-header">
+                    <div class="obra-icon">🏫</div>
+                    <svg class="obra-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </div>
+                <h3 class="obra-title">Escola Botafogo</h3>
+                <p class="obra-gestor">Gestor: A definir</p>
+                <div class="obra-stats">
+                    <div class="stat">
+                        <div class="stat-label">Progresso</div>
+                        <div class="stat-value">28%</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">Equipe</div>
+                        <div class="stat-value">20</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -567,7 +637,9 @@
             'usf-santa-fe': 'usf-santa-fe.html',
             'usf-terezinha-de-jesus': 'usf-terezinha-de-jesus.html',
             'usf-vale-dos-sonhos': 'usf-vale-dos-sonhos.html',
-            'nhe-walter-de-jesus': 'nhe-walter-de-jesus.html'
+            'nhe-walter-de-jesus': 'nhe-walter-de-jesus.html',
+            'escola-sevilha': 'escola-sevilha.html',
+            'escola-botafogo': 'escola-botafogo.html'
         };
 
         // Adiciona evento de clique em todos os cards
