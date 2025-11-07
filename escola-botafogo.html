@@ -121,36 +121,42 @@
         
         /* Card Status */
         .card-status {
-            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
-            border-left-color: #10b981;
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border-left-color: #22c55e;
         }
         
         .card-status .card-value {
-            color: #047857;
+            color: #15803d;
         }
         
         .card-status .card-icon {
-            color: #10b981;
+            color: #22c55e;
         }
         
         .status-badge {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
             margin-top: 12px;
         }
         
         .status-dot {
-            width: 10px;
-            height: 10px;
-            background-color: #10b981;
+            width: 8px;
+            height: 8px;
+            background-color: #22c55e;
             border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
         
         .status-text {
             font-size: 14px;
             font-weight: bold;
-            color: #047857;
+            color: #15803d;
         }
         
         /* Card Orçamento */
@@ -190,6 +196,8 @@
             color: #a855f7;
         }
 
+
+
         @media (max-width: 600px) {
             .grid {
                 grid-template-columns: 1fr;
@@ -219,11 +227,10 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
                     </svg>
                 </div>
-                <div class="card-value">100%</div>
+                <div class="card-value">45%</div>
                 <div class="progress-bar">
-                    <div class="progress-fill" style="width: 100%"></div>
+                    <div class="progress-fill" style="width: 45%"></div>
                 </div>
-                <div class="card-subtitle" style="color: #1d4ed8; font-weight: 600; margin-top: 8px;">✓ Obra Concluída</div>
             </div>
 
             <!-- Card Status -->
@@ -236,9 +243,8 @@
                 </div>
                 <div class="status-badge">
                     <div class="status-dot"></div>
-                    <span class="status-text">✓ Em Garantia</span>
+                    <span class="status-text">Em Andamento</span>
                 </div>
-                <div class="card-subtitle" style="color: #047857; margin-top: 8px;">Obra finalizada</div>
             </div>
 
             <!-- Card Orçamento -->
@@ -250,7 +256,7 @@
                     </svg>
                 </div>
                 <div class="card-value">R$ 2.800.000</div>
-                <div class="card-subtitle">Gasto: R$ 2.800.000 (100%)</div>
+                <div class="card-subtitle">Gasto: R$ 1.260.000</div>
             </div>
 
             <!-- Card Equipe -->
@@ -264,6 +270,8 @@
                 <div class="card-value">32</div>
                 <div class="card-subtitle">colaboradores</div>
             </div>
+
+
         </div>
     </div>
 </body>
