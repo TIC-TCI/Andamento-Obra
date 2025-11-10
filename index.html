@@ -350,6 +350,32 @@
             color: #c2410c;
         }
         
+        .obra-escola-itarare {
+            border-left-color: #14b8a6;
+        }
+        
+        .obra-escola-itarare .obra-icon {
+            background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
+            color: #14b8a6;
+        }
+        
+        .obra-escola-itarare .stat-value {
+            color: #0f766e;
+        }
+        
+        .obra-samuel-messias {
+            border-left-color: #db2777;
+        }
+        
+        .obra-samuel-messias .obra-icon {
+            background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
+            color: #db2777;
+        }
+        
+        .obra-samuel-messias .stat-value {
+            color: #9f1239;
+        }
+        
         @media (max-width: 768px) {
             .obras-grid {
                 grid-template-columns: 1fr;
@@ -579,7 +605,7 @@
                     </svg>
                 </div>
                 <h3 class="obra-title">Escola Sevilha</h3>
-                <p class="obra-gestor">Gestor: A definir</p>
+                <p class="obra-gestor">Gestor: Paulo Miranda</p>
                 <div class="obra-stats">
                     <div class="stat">
                         <div class="stat-label">Progresso</div>
@@ -601,7 +627,7 @@
                     </svg>
                 </div>
                 <h3 class="obra-title">Escola Botafogo</h3>
-                <p class="obra-gestor">Gestor: A definir</p>
+                <p class="obra-gestor">Gestor: Paulo Miranda</p>
                 <div class="obra-stats">
                     <div class="stat">
                         <div class="stat-label">Progresso</div>
@@ -610,6 +636,50 @@
                     <div class="stat">
                         <div class="stat-label">Equipe</div>
                         <div class="stat-value">20</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Escola Itararé -->
+            <div class="obra-card obra-escola-itarare" data-dashboard="escola-itarare" data-obra-nome="Escola Itararé">
+                <div class="obra-header">
+                    <div class="obra-icon">🏫</div>
+                    <svg class="obra-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </div>
+                <h3 class="obra-title">Escola Itararé</h3>
+                <p class="obra-gestor">Gestor: Paulo Miranda</p>
+                <div class="obra-stats">
+                    <div class="stat">
+                        <div class="stat-label">Progresso</div>
+                        <div class="stat-value">41%</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">Equipe</div>
+                        <div class="stat-value">24</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ampliação Samuel Messias -->
+            <div class="obra-card obra-samuel-messias" data-dashboard="ampliacao-samuel-messias" data-obra-nome="Ampliação Samuel Messias">
+                <div class="obra-header">
+                    <div class="obra-icon">🏥</div>
+                    <svg class="obra-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </div>
+                <h3 class="obra-title">Ampliação Samuel Messias</h3>
+                <p class="obra-gestor">Gestor: Paulo Miranda</p>
+                <div class="obra-stats">
+                    <div class="stat">
+                        <div class="stat-label">Progresso</div>
+                        <div class="stat-value">49%</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">Equipe</div>
+                        <div class="stat-value">35</div>
                     </div>
                 </div>
             </div>
@@ -635,49 +705,4 @@
             'ti-jardim': 'ti-jardim.html',
             'upa-amapa-creche-maria-elizia': 'upa-amapa-creche-maria-elizia.html',
             'usf-santa-fe': 'usf-santa-fe.html',
-            'usf-terezinha-de-jesus': 'usf-terezinha-de-jesus.html',
-            'usf-vale-dos-sonhos': 'usf-vale-dos-sonhos.html',
-            'nhe-walter-de-jesus': 'nhe-walter-de-jesus.html',
-            'escola-sevilha': 'escola-sevilha.html',
-            'escola-botafogo': 'escola-botafogo.html'
-        };
-
-        // Adiciona evento de clique em todos os cards
-        document.querySelectorAll('.obra-card').forEach(card => {
-            card.addEventListener('click', function(e) {
-                e.preventDefault();
-                const dashboardId = this.getAttribute('data-dashboard');
-                const obraNome = this.getAttribute('data-obra-nome');
-                const path = dashboardPaths[dashboardId];
-                
-                if (path) {
-                    // Mostra o modal com informações da obra
-                    document.getElementById('modal-title').textContent = obraNome;
-                    document.getElementById('modal-text').textContent = `Redirecionando para: ${path}`;
-                    document.getElementById('modal').style.display = 'block';
-                    
-                    // Redireciona após 1.5 segundos
-                    setTimeout(() => {
-                        window.location.href = path;
-                    }, 1500);
-                } else {
-                    alert('Dashboard não encontrado!');
-                }
-            });
-        });
-
-        // Função para fechar o modal
-        function closeModal() {
-            document.getElementById('modal').style.display = 'none';
-        }
-
-        // Fecha o modal ao clicar fora dele
-        window.onclick = function(event) {
-            const modal = document.getElementById('modal');
-            if (event.target == modal) {
-                modal.style.display = 'none';
-            }
-        }
-    </script>
-</body>
-</html>
+            'usf-terezinha-de-jesus': 'usf-terezinha-de-jesus.html
