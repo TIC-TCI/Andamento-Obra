@@ -705,4 +705,51 @@
             'ti-jardim': 'ti-jardim.html',
             'upa-amapa-creche-maria-elizia': 'upa-amapa-creche-maria-elizia.html',
             'usf-santa-fe': 'usf-santa-fe.html',
-            'usf-terezinha-de-jesus': 'usf-terezinha-de-jesus.html
+            'usf-terezinha-de-jesus': 'usf-terezinha-de-jesus.html',
+            'usf-vale-dos-sonhos': 'usf-vale-dos-sonhos.html',
+            'nhe-walter-de-jesus': 'nhe-walter-de-jesus.html',
+            'escola-sevilha': 'escola-sevilha.html',
+            'escola-botafogo': 'escola-botafogo.html',
+            'escola-itarare': 'escola-itarare.html',
+            'ampliacao-samuel-messias': 'ampliacao-samuel-messias.html'
+        };
+
+        // Adiciona evento de clique em todos os cards
+        document.querySelectorAll('.obra-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                e.preventDefault();
+                const dashboardId = this.getAttribute('data-dashboard');
+                const obraNome = this.getAttribute('data-obra-nome');
+                const path = dashboardPaths[dashboardId];
+                
+                if (path) {
+                    // Mostra o modal com informações da obra
+                    document.getElementById('modal-title').textContent = obraNome;
+                    document.getElementById('modal-text').textContent = `Redirecionando para: ${path}`;
+                    document.getElementById('modal').style.display = 'block';
+                    
+                    // Redireciona após 1.5 segundos
+                    setTimeout(() => {
+                        window.location.href = path;
+                    }, 1500);
+                } else {
+                    alert('Dashboard não encontrado!');
+                }
+            });
+        });
+
+        // Função para fechar o modal
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        // Fecha o modal ao clicar fora dele
+        window.onclick = function(event) {
+            const modal = document.getElementById('modal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html
